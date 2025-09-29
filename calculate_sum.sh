@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Dosya yolları
-# Varsayılan input host dizininde `input_numbers.txt` olarak sağlanıyor
+# Varsayılan input host dizininde `numbers.txt` olarak sağlanıyor
 INPUT_FILE="/data/numbers.txt"
 OUTPUT_DIR="/data"
 
