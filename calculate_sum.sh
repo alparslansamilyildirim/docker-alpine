@@ -9,7 +9,7 @@ OUTPUT_DIR="/data"
 # date: YYYY-MM-DD, time: HHMMSS (iki nokta ':' içermeyen güvenli format),
 # version: artan sayı eğer aynı zaman damgasına sahip dosya varsa
 DATE_STR=$(TZ=Europe/Istanbul date +%Y-%m-%d)
-TIME_STR=$(TZ=Europe/Istanbul date +%H:%M:%S)
+TIME_STR=$(TZ=Europe/Istanbul date +%H-%M-%S)
 BASE_NAME="${DATE_STR}_${TIME_STR}"
 
 mkdir -p "$OUTPUT_DIR"
