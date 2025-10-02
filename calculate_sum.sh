@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# Dosya yolları
-# Varsayılan input host dizininde `numbers.txt` olarak sağlanıyor
+# File path configuration
+# Default input provided as `numbers.txt` in host directory
 INPUT_FILE="/data/numbers.txt"
 OUTPUT_DIR="/data"
 
-# Çıkış dosyası adı: <date>_<time>-v<version>.txt
-# date: YYYY-MM-DD, time: HHMMSS (iki nokta ':' içermeyen güvenli format),
-# version: artan sayı eğer aynı zaman damgasına sahip dosya varsa
+# Output filename format: <date>_<time>-v<version>.txt
+# date: YYYY-MM-DD, time: HH-MM-SS (safe format without colons),
+# version: incremental number if file with same timestamp exists
 DATE_STR=$(TZ=Europe/Istanbul date +%Y-%m-%d)
 TIME_STR=$(TZ=Europe/Istanbul date +%H-%M-%S)
 BASE_NAME="${DATE_STR}_${TIME_STR}"
@@ -17,13 +17,13 @@ mkdir -p "$OUTPUT_DIR"
 version=1
 OUTPUT_FILE="$OUTPUT_DIR/${BASE_NAME}-v${version}.txt"
 
-# Eğer input dosyası yoksa boş output oluşturup çık
+# If input file doesn't exist, create empty output and exit
 if [[ ! -e "$INPUT_FILE" ]]; then
     > "$OUTPUT_FILE"
     exit 0
 fi
 
-# Satır toplamlarını topla ve diziye kaydet
+# Calculate line sums and store in array
 sums=()
 while IFS= read -r line || [[ -n "$line" ]]; do
     if [[ -n "$line" ]]; then
@@ -37,7 +37,7 @@ while IFS= read -r line || [[ -n "$line" ]]; do
     fi
 done < "$INPUT_FILE"
 
-# Input dosyasının son karakterinin newline olup olmadığını kontrol et
+# Check if input file ends with newline character
 ends_with_newline=0
 if [[ -s "$INPUT_FILE" ]]; then
     last_char=$(tail -c1 "$INPUT_FILE" 2>/dev/null || true)
@@ -46,7 +46,7 @@ if [[ -s "$INPUT_FILE" ]]; then
     fi
 fi
 
-# Result dosyasını oluştur ve dizi elemanlarını yaz (son satıra ekstra newline ekleme kontrolü)
+# Create result file and write array elements (with newline control for last line)
 > "$OUTPUT_FILE"
 total=${#sums[@]}
 for idx in "${!sums[@]}"; do
